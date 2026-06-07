@@ -25,7 +25,7 @@ CREATE TABLE retiradas (
         REFERENCES funcionarios(id_funcionario)
 );
 
--- exemplos:
+--exemplos:
 
 INSERT INTO produtos
 (nome_produto, categoria, quantidade_estoque, disponibilidade)
