@@ -100,6 +100,10 @@ delimiter ;
 
 /* A arquitetura do banco de dados já foi montada, essa parte seguinte é apenas para fins de testes para checar se o banco está funcionando perfeitamente */
 
+-- inicialmente precisa iniciar a transação ANTES do INSERT para que esses dados não sofram autocommit
+
+start transaction;
+
 -- inserindo alguns dados como teste
 
 -- produtos
@@ -163,3 +167,19 @@ inner join produtos p
 inner join funcionarios f
     on r.id_funcionario = f.id_funcionario -- join entre as tabelas 
 order by r.data_retirada desc;
+
+-- para serem feitas limpezas nos inserts
+
+rollback;
+
+-- para salvar os dados inseridos
+
+commit;
+
+-- caso não seja feita a transição inicialmente pode ser feito o seguinte comando para apagar e recomeçar
+
+set foreign_key_checks = 0;
+truncate table produtos;
+truncate table funcionarios;
+truncate table retiradas;
+set foreign_key_checks = 1;
