@@ -58,7 +58,7 @@ alter table retiradas
 alter table retiradas
     add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
 
--- criando uma trigger para a viração de disponibilidade do estoque, nos quais apresentação resultados diferentes dependendo da quantidade em estoque
+-- criando uma trigger para a variação de disponibilidade do estoque, nos quais apresentarão resultados diferentes dependendo da quantidade em estoque
 
 -- trigger para inserts
 
