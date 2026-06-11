@@ -58,7 +58,7 @@ alter table retiradas
 alter table retiradas
     add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
 
--- criando uma trigger para a variação de disponibilidade do estoque, nos quais apresentarão resultados diferentes dependendo da quantidade em estoque
+-- criando uma trigger para a variação da disponibilidade do estoque, nos quais apresentarão resultados diferentes dependendo da quantidade em estoque
 
 -- trigger para inserts
 
@@ -176,7 +176,7 @@ rollback;
 
 commit;
 
--- caso não seja feita a transição inicialmente pode ser feito o seguinte comando para apagar e recomeçar
+-- caso não seja feita a transação inicialmente pode ser realizado o seguinte comando para apagar tudo e recomeçar
 
 set foreign_key_checks = 0;
 truncate table produtos;
