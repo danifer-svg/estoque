@@ -15,7 +15,7 @@ create table produtos (id_produto int
                      , nome_produto varchar(100) not null
                      , categoria varchar(50)
                      , quantidade_estoque int not null
-                     , disponibilidade enum('Disponível', 'Não disponível') not null default 'Disponível'
+                     , disponibilidade enum('Em estoque', 'Baixo estoque', 'Sem estoque') not null default 'Em estoque'
                       );
 
 -- criação da chave primária para a tabela de produtos
