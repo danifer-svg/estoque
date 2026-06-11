@@ -1,48 +1,58 @@
-CREATE TABLE produtos (
-    id_produto INT PRIMARY KEY AUTO_INCREMENT,
-    nome_produto VARCHAR(100) NOT NULL,
-    categoria VARCHAR(50),
-    quantidade_estoque INT NOT NULL,
-    disponibilidade VARCHAR(20)
-);
+/* A base de código foi feita em SQL e PL/SQL através do software MySQL
+    tentei estruturar de uma forma que fique estendível o passo a passo*/
 
-CREATE TABLE funcionarios (
-    id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
-    nome_funcionario VARCHAR(100) NOT NULL
-);
+-- criando um banco de dados para o projeto
 
-CREATE TABLE retiradas (
-    id_retirada INT PRIMARY KEY AUTO_INCREMENT,
-    id_produto INT NOT NULL,
-    id_funcionario INT NOT NULL,
-    quantidade_retirada INT NOT NULL,
-    data_retirada DATETIME NOT NULL,
+create database estoque
+    
+-- usando o banco de dados para a criação das tabelas
 
-    FOREIGN KEY (id_produto)
-        REFERENCES produtos(id_produto),
+use estoque
+    
+-- criando a tabela de produtos que serão registrados em sistema
 
-    FOREIGN KEY (id_funcionario)
-        REFERENCES funcionarios(id_funcionario)
-);
+create table produtos (id_produto int
+                     , nome_produto varchar(100) not null
+                     , categoria varchar(50)
+                     , quantidade_estoque int not null
+                     , disponibilidade varchar(50)
+                      );
+-- criação da chave primária para a tabela de produtos
 
---exemplos:
+alter table produtos
+    modify id_produto int auto_increment,
+    add constraint PK_produtos primary key (id_produto);
+-- criando a tabela de funcionários que serão registrados em sistema
 
-INSERT INTO produtos
-(nome_produto, categoria, quantidade_estoque, disponibilidade)
-VALUES
-('Detergente', 'Limpeza', 100, 'Disponível'),
-('Água Sanitária', 'Limpeza', 50, 'Disponível');
+create table funcionarios (id_funcionario int
+                         , nome_funcionario varchar(250) not null
+                          );
+-- criação da chave primária para a tabela de funcionários
 
-INSERT INTO funcionarios
-(nome_funcionario)
-VALUES
-('João Silva'),
-('Maria Souza');
+alter table funcionarios
+    modify id_funcionario int auto_increment,
+    add constraint PK_funcionarios primary key (id_funcionario);
+-- criando a tablea do histórico de retirada dos produtos pelos funcionários
 
-INSERT INTO retiradas
-(id_produto, id_funcionario, quantidade_retirada, data_retirada)
-VALUES
-(1, 1, 5, NOW());
+create table retiradas (id_retirada int
+                      , id_produto int not null
+                      , id_funcionario int not null
+                      , quantidade_retirada int not null
+                      , data_retirada datetime not null
+                       );
+-- criação da chave primária para a tabela de retiradas
+
+alter table retiradas
+    modify id_retirada int auto_increment,
+    add constraint PK_retiradas primary key (id_retirada);
+-- adicionando as chaves estrangeiras dos produtos e dos funcionários
+
+alter table retiradas
+    add constraint FK_produto foreign key (id_produto) references produtos(id_produto);
+alter table retiradas
+    add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
+
+
 
 --consultando historico
 
