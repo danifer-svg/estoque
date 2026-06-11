@@ -1,5 +1,5 @@
-/* A base de código foi feita em SQL e PL/SQL através do software para banco de daods MySQL.
-    Tentei estruturar de uma forma que fique estendível o passo a passo*/
+/* A base de código foi feita em SQL e PL/SQL através do software para banco de dados MySQL.
+    Tentei estruturar de uma forma que fique entendível o passo a passo*/
 
 -- criando um banco de dados para o projeto
 
