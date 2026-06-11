@@ -58,40 +58,108 @@ alter table retiradas
 alter table retiradas
     add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
 
--- agora será feita a consulta do histórico através de uma query
+-- criando uma trigger para a viração de disponibilidade do estoque, nos quais apresentação resultados diferentes dependendo da quantidade em estoque
 
-select r.id_retirada "Número da retirada"
-     , p.nome_produto "Nome do produto"
-     , f.nome_funcionario "Nome do funcionário"
-     , r.quantidade_retirada "Quantidade retirada"
-     , r.data_retirada "Data de retirada"
+-- trigger para inserts
+
+delimiter //
+
+create trigger trg_disponibilidade_insert
+before insert on produtos
+for each row
+begin
+    if new.quantidade_estoque = 0 then
+        set new.disponibilidade = 'Sem estoque';
+    elseif new.quantidade_estoque <= 10 then
+        set new.disponibilidade = 'Baixo estoque';
+    else
+        set new.disponibilidade = 'Em estoque';
+    end if;
+end//
+
+delimiter ;
+
+-- trigger para updates
+
+delimiter //
+
+create trigger trg_disponibilidade_update
+before update on produtos
+for each row
+begin
+    if new.quantidade_estoque = 0 then
+        set new.disponibilidade = 'Sem estoque';
+    elseif new.quantidade_estoque <= 10 then
+        set new.disponibilidade = 'Baixo estoque';
+    else
+        set new.disponibilidade = 'Em estoque';
+    end if;
+end//
+
+delimiter ;
+
+/* A arquitetura do banco de dados já foi montada, essa parte seguinte é apenas para fins de testes para checar se o banco está funcionando perfeitamente */
+
+-- inserindo alguns dados como teste
+
+-- produtos
+
+insert into produtos
+       (nome_produto
+      , categoria
+      , quantidade_estoque)
+values ('Placa de vídeo RTX 3060 Ti', 'Hardware', 5)
+     , ('Memória RAM 16GB DDR4', 'Hardware', 30)
+     , ('SSD 1TB SATA', 'Hardware', 0)
+     , ('Teclado mecânico Logitch', 'Periféricos', 25)
+     , ('Mouse sem fio Logitech', 'Periféricos', 40);
+
+-- consultando a tabela de produtos
+
+select * from produtos;
+
+-- funcionários
+
+insert into funcionarios 
+       (nome_funcionario)
+values ('Gabriel Retrocesso')
+     , ('Dani Kio')
+     , ('Dreliy Orphe');
+
+-- consultando a tabela de funcionários
+
+select * from funcionarios;
+
+-- retiradas
+
+insert into retiradas
+       (id_produto
+      , id_funcionario
+      , quantidade_retirada
+      , data_retirada)
+values (1, 2, 2, sysdate())
+     , (2, 1, 5, sysdate())
+     , (4, 3, 1, sysdate())
+     , (2, 2, 3, sysdate())
+     , (5, 1, 4, sysdate())
+     , (1, 3, 1, sysdate())
+     , (4, 2, 2, sysdate())
+     , (5, 3, 5, sysdate());
+
+-- consultando a tabela de retiradas
+
+select * from retiradas;
+
+-- agora será feita a consulta do histórico para checar as retiradas através de uma query
+
+select r.id_retirada as 'Número da retirada'
+     , p.nome_produto as 'Nome do produto'
+     , f.nome_funcionario as 'Nome do funcionário'
+     , r.quantidade_retirada as 'Quantidade retirada'
+     , r.data_retirada as 'Data de retirada'
     from retiradas r
 inner join produtos p
     on r.id_produto = p.id_produto
-
-
---consultando historico
-
-SELECT
-    r.id_retirada,
-    p.nome_produto,
-    f.nome_funcionario,
-    r.quantidade_retirada,
-    r.data_retirada
-FROM retiradas r
-INNER JOIN produtos p
-    ON r.id_produto = p.id_produto
-INNER JOIN funcionarios f
-    ON r.id_funcionario = f.id_funcionario
-ORDER BY r.data_retirada DESC;
-
-UPDATE produtos
-SET quantidade_estoque = quantidade_estoque - 5
-WHERE id_produto = 1;
-
-CREATE TRIGGER trg_baixa_estoque
-AFTER INSERT ON retiradas
-FOR EACH ROW
-UPDATE produtos
-SET quantidade_estoque = quantidade_estoque - NEW.quantidade_retirada
-WHERE id_produto = NEW.id_produto;
+inner join funcionarios f
+    on r.id_funcionario = f.id_funcionario -- join entre as tabelas 
+order by r.data_retirada desc;
