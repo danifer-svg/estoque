@@ -15,7 +15,7 @@ create table produtos (id_produto int
                      , nome_produto varchar(100) not null
                      , categoria varchar(50)
                      , quantidade_estoque int not null
-                     , disponibilidade varchar(50)
+                     , disponibilidade enum('Disponível', 'Não disponível') not null default 'Disponível'
                       );
 
 -- criação da chave primária para a tabela de produtos
@@ -58,7 +58,16 @@ alter table retiradas
 alter table retiradas
     add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
 
+-- agora será feita a consulta do histórico através de uma query
 
+select r.id_retirada "Número da retirada"
+     , p.nome_produto "Nome do produto"
+     , f.nome_funcionario "Nome do funcionário"
+     , r.quantidade_retirada "Quantidade retirada"
+     , r.data_retirada "Data de retirada"
+    from retiradas r
+inner join produtos p
+    on r.id_produto = p.id_produto
 
 
 --consultando historico
