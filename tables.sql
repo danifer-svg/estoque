@@ -36,7 +36,7 @@ alter table funcionarios
     modify id_funcionario int auto_increment,
     add constraint PK_funcionarios primary key (id_funcionario);
 
--- criando a tablea do histórico de retirada dos produtos pelos funcionários
+-- criando a tabela do histórico de retirada dos produtos pelos funcionários
 
 create table retiradas (id_retirada int
                       , id_produto int not null
