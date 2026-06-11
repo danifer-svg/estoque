@@ -3,11 +3,11 @@
 
 -- criando um banco de dados para o projeto
 
-create database estoque
+create database estoque;
 
 -- usando o banco de dados para a criação das tabelas
 
-use estoque
+use estoque;
 
 -- criando a tabela de produtos que serão registrados em sistema
 
