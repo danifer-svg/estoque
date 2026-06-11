@@ -4,11 +4,11 @@
 -- criando um banco de dados para o projeto
 
 create database estoque
-    
+
 -- usando o banco de dados para a criação das tabelas
 
 use estoque
-    
+
 -- criando a tabela de produtos que serão registrados em sistema
 
 create table produtos (id_produto int
@@ -17,21 +17,25 @@ create table produtos (id_produto int
                      , quantidade_estoque int not null
                      , disponibilidade varchar(50)
                       );
+
 -- criação da chave primária para a tabela de produtos
 
 alter table produtos
     modify id_produto int auto_increment,
     add constraint PK_produtos primary key (id_produto);
+
 -- criando a tabela de funcionários que serão registrados em sistema
 
 create table funcionarios (id_funcionario int
                          , nome_funcionario varchar(250) not null
                           );
+
 -- criação da chave primária para a tabela de funcionários
 
 alter table funcionarios
     modify id_funcionario int auto_increment,
     add constraint PK_funcionarios primary key (id_funcionario);
+
 -- criando a tablea do histórico de retirada dos produtos pelos funcionários
 
 create table retiradas (id_retirada int
@@ -40,17 +44,20 @@ create table retiradas (id_retirada int
                       , quantidade_retirada int not null
                       , data_retirada datetime not null
                        );
+
 -- criação da chave primária para a tabela de retiradas
 
 alter table retiradas
     modify id_retirada int auto_increment,
     add constraint PK_retiradas primary key (id_retirada);
+
 -- adicionando as chaves estrangeiras dos produtos e dos funcionários
 
 alter table retiradas
     add constraint FK_produto foreign key (id_produto) references produtos(id_produto);
 alter table retiradas
     add constraint FK_funcionario foreign key (id_funcionario) references funcionarios(id_funcionario);
+
 
 
 
