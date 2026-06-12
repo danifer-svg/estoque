@@ -119,7 +119,7 @@ values ('Placa de vídeo RTX 3060 Ti', 'Hardware', 5)
      , ('Mouse sem fio Logitech', 'Periféricos', 40);
 
 /* pode-se perceber que não foram necessários inserts tanto no id quanto na disponibilidade
-   pois esses sistemas já foram automatizados para que o autopreenchimento
+   pois esses sistemas já foram automatizados para o autopreenchimento
    o id é autoincrementado
    a disponibilidade é preenchida dependendo de valores preenchidos na quantidade de estoque */
 
